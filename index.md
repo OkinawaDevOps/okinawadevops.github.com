@@ -1,36 +1,46 @@
 ---
 layout: page
-title: Hello World!
+title: OkinawaDevOps
 tagline: Supporting tagline
 ---
 {% include JB/setup %}
 
-Read [Jekyll Quick Start](http://jekyllbootstrap.com/usage/jekyll-quick-start.html)
+はじめに
+-------------------
 
-Complete usage and documentation available at: [Jekyll Bootstrap](http://jekyllbootstrap.com)
+OkinawaDevOps は基本的に[もくもく勉強会](http://www.1x1.jp/blog/2013/12/lets-try-moku-moku-study-event.html)となります。また、すすめかたについては[すごい広島](http://great-h.github.io/rule.html)のルールに沿ってみたいと考えています。
 
-## Update Author Attributes
+最初の手順
+------------------
 
-In `_config.yml` remember to specify your own data:
++ [リポジトリ](https://github.com/OkinawaDevOps/okinawadevops.github.com)の Issue でもくもくなネタを宣言します
++ 作成した Issue の ID と自分の ID をもとに branch を作ります
++ /_posts/yyyy-mm-dd-<自分のid>.md を作成して、とりあえず「自分の名前」および「作成した Issue へのリンク」を作成します
++ Pull Request を作ります
++ もくもくしたり参加者と情報交換したりしてください
++ もしかすると自己紹介タイムを設けるかもしれません
+
+Issue について
+------------------
+
+もくもくするネタを投入するだけではなく、自分が何をしているか、とか自分がどんな人なのか、という情報もあると良いかもしれません。
+
+作成する markdown について
+------------------
+
+[すごい広島](http://great-h.github.io/rule.html)では以下のフォーマットが推奨されています。暫くこれを使わせて頂く方向で。
+
+    ### [名前][URL]
     
-    title : My Blog =)
-    
-    author :
-      name : Name Lastname
-      email : blah@email.test
-      github : username
-      twitter : username
+    * [やること宣言][Issue へのリンク]
 
-The theme should reference these variables whenever needed.
-    
-## Sample Posts
+ファイル作成や Pull Request などについて
+-------------------
 
-This blog contains sample posts which help stage pages and blog data.
-When you don't need the samples anymore just delete the `_posts/core-samples` folder.
+ファイルを新規に作成する場合は必ず branch を作って作業してください。また、Pull Request については二名以上のメンバによる LGTM が無いと merge できない、というルール設定をしておきたいと思っています。
 
-    $ rm -rf _posts/core-samples
 
-Here's a sample "posts list".
+## 投入されたポスト
 
 <ul class="posts">
   {% for post in site.posts %}
@@ -40,7 +50,8 @@ Here's a sample "posts list".
 
 ## To-Do
 
-This theme is still unfinished. If you'd like to be added as a contributor, [please fork](http://github.com/plusjade/jekyll-bootstrap)!
-We need to clean up the themes, make theme usage guides with theme-specific markup examples.
+## 謝辞
+
+[すごい広島](http://great-h.github.io/rule.html)の先進的な取り込みに感謝します。
 
 

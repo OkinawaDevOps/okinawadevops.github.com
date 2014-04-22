@@ -1,7 +1,7 @@
 ---
 layout: page
 title: OkinawaDevOps
-tagline: Supporting tagline
+tagline: 
 ---
 {% include JB/setup %}
 

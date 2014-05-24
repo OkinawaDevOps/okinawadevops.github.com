@@ -16,3 +16,7 @@ Dockerfile を弄って
     docker run -p 80 -p 2222 -d rms/supervisord
 
 してたのですが Exit 1 してるのが今です。
+
+その後のログは以下にて。。
+
+- [Docker もくもく](http://yamanetoshi.github.io/blog/2014/05/24/okinawa-devops/)

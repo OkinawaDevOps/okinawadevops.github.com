@@ -57,3 +57,12 @@ Vagrantfile の末尾に bootstrap.sh のキックを追加。
     root@fcf1e4a1c3c1:/#
 
 最後、シェルを出て sudo docker ps してヘンなコンテナが残ってないか確認しておわり。
+
+以下、成果物。
+
+Vagrant が入っていれば git clone して vagrant up/vagrant ssh すれば Docker 環境になるはず。
+当方 OS X 10.9.2 にて確認。
+
+[https://gist.github.com/kinjo/992e0622f538d8794faa](https://gist.github.com/kinjo/992e0622f538d8794faa)
+
+<script src="https://gist.github.com/kinjo/992e0622f538d8794faa.js"></script>

@@ -5,6 +5,7 @@ tags : [Docker]
 {% include JB/setup %}
 
 ## [kinjo](https://github.com/kinjo)
+
 以下なトライイットを読む。
 
 [http://www.docker.com/tryit/](http://www.docker.com/tryit/)
@@ -16,6 +17,7 @@ Docker 1.0 になるちょっと前に読んだので、少し内容が変わっ
 Ubuntu 14.04 上の Docker バージョン 0.11.1 でも動作することを確認。 ただし sudo は必要。
 
 ## Getting started
+
 Docker デーモンと Docker クライアントがある。
 
 docker と打つと利用できる引数が表示される。
@@ -26,7 +28,8 @@ docker version で今の Docker のバージョンを確認する。
     docker version
 
 ## Searching for images
-docker search <string> でコンテナイメージを探せる。
+
+`docker search <string>` でコンテナイメージを探せる。
 
 チュートリアル用のイメージを探す。
 
@@ -38,6 +41,7 @@ docker search <string> でコンテナイメージを探せる。
 Docker index へは [https://index.docker.io/](https://index.docker.io/) からアクセス。
 
 ## Downloading container images
+
 コンテナイメージは docker pull でダウンロードする。
 
 チュートリアル用のイメージをダウンロードする。
@@ -45,6 +49,7 @@ Docker index へは [https://index.docker.io/](https://index.docker.io/) から�
     docker pull lean/tutorial
 
 ## Hellow world from a container
+
 コンテナとは箱の中のひとつのプロセスのようなもの。
 コンテナはプロセスが必要とするあらゆるものを含む。
 ファイルシステム、システムライブラリ、シェルなど。
@@ -55,6 +60,7 @@ docker run でコンテナの中でプロセスを走らせる。
     docker run learn/tutorial echo hello world
 
 ## Installing things in the container
+
 コンテナに ping をインストールする。
 コンテナの中で apt-get install -y ping を実行する。
 
@@ -65,6 +71,7 @@ docker run でコンテナの中でプロセスを走らせる。
 apt-get install コマンドに -y を指定しないと、失敗する。
 
 ## Save your changes
+
 変更の後、後で変更点から再開できるよう、変更を保存したいとする。
 Docker では、状態を保存することをコミットと呼ぶ。
 
@@ -77,11 +84,13 @@ ping のインストールで作成されたコンテナの ID を docker ps -l 
 ID を全て打つことはなく、最初の３、４文字で十分な模様。
 
 ## Run your new image
+
 ping をインストールし、新しく作成したコンテナイメージで ping を実行する。
 
     docker run learn/ping ping www.google.com
 
 ## Check your running image
+
 docker ps で走っているコンテナの一覧を参照できる。
 docker inspect でコンテナの各種情報を参照できる。
 
@@ -92,6 +101,7 @@ docker inspect でコンテナの各種情報を参照できる。
     docker inspect efef
 
 ## Push your image to the index
+
 index にコンテナイメージを push(アップロード)すれば、簡単に取得して再利用したり
 他者と共有したりできる。
 

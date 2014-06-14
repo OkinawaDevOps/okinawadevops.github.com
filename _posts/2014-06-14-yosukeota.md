@@ -8,4 +8,76 @@ tags : [Ansible]
 
 * [やること](https://github.com/OkinawaDevOps/okinawadevops.github.com/issues/34)
 
-#### Title
+#### VagrantなvmをAnsibleでいじいじしたい！
+
+Mac => vm なのか、vm_1 => vm_2なのかで迷う。
+
+vm_1 => vm_2でやってみよう！
+
+#### vagrant ssh
+
+```
+$ cd ~/vms/ubuntu14_1
+$ vagrant up
+$ cd ~/vms/ubuntu14_2
+$ vagrant up
+```
+
+vagrantはデフォルトでport 2222を22にforwardしている。
+
+ってことは、複数のvmを`vagrant up`するとportがかぶって大変？
+
+=> port変更してよろしくやってくれる
+==> でもipは一緒？？？
+===> ipについては設定しないといけなさそう
+====> MacからvmにAnsible実行をとりあえずやってみよう
+
+- 結果的に
+
+Mac => vmにAnsible投げることに
+
+#### Ansibleのインストール(Mavericks)
+
+```
+$ sudo easy_install pip
+$ sudo pip install ansible
+```
+
+#### Ansibleを使ってVagrantにファイルを投げてみる
+
+```
+$ touch ~/pantu
+$ cat hosts
+machine ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222
+$ ansible machine -i hosts --private-key=~/.vagrant.d/insecure_private_key -u vagrant -m copy -a "src=~/pantu dest=~/"
+```
+
+投げれた！
+
+#### ちなみに？
+
+`~/.ssh/config`に設定書いてるとさらにらくちん！
+
+```
+$ cat <<EOF >>~/.ssh/config
+> Host vagrant
+> Hostname 127.0.0.1
+> User vagrant
+> Port 2222
+> IdentityFile ~/.vagrant.d/insecure_private_key
+> EOF
+$ cat hosts <<EOF
+> vagrant
+> EOF
+$ ansible vagrant -i hosts -m copy -a "src=~/pantu dest=~/"
+```
+
+#### 他にも
+
+`Vagrantfile`にprovisionを指定する設定があるようで、そこでplaybookを指定すると実行してくれるらしい。
+
+これは後日...。
+
+#### 今後は
+
+とりあえずvagrantの複数台運用方法考える。

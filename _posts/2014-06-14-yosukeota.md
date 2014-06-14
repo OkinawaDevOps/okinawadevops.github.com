@@ -12,19 +12,15 @@ tags : [Ansible]
 
 #### Ansibleのインストール(Mavericks)
 
-```
-$ sudo easy_install pip
-$ sudo pip install ansible
-```
+    $ sudo easy_install pip
+    $ sudo pip install ansible
 
 #### Ansibleを使ってVagrantにファイルを投げてみる
 
-```
-$ touch ~/pantu
-$ cat hosts
-machine ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222
-$ ansible machine -i hosts --private-key=~/.vagrant.d/insecure_private_key -u vagrant -m copy -a "src=~/pantu dest=~/"
-```
+    $ touch ~/pantu
+    $ cat hosts
+    machine ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222
+    $ ansible machine -i hosts --private-key=~/.vagrant.d/insecure_private_key -u vagrant -m copy -a "src=~/pantu dest=~/"
 
 投げれた！
 
@@ -32,19 +28,17 @@ $ ansible machine -i hosts --private-key=~/.vagrant.d/insecure_private_key -u va
 
 `~/.ssh/config`に設定書いてるとさらにらくちん！
 
-```
-$ cat <<EOF >>~/.ssh/config
-> Host vagrant
-> Hostname 127.0.0.1
-> User vagrant
-> Port 2222
-> IdentityFile ~/.vagrant.d/insecure_private_key
-> EOF
-$ cat hosts <<EOF
-> vagrant
-> EOF
-$ ansible vagrant -i hosts -m copy -a "src=~/pantu dest=~/"
-```
+    $ cat <<EOF >>~/.ssh/config
+    > Host vagrant
+    > Hostname 127.0.0.1
+    > User vagrant
+    > Port 2222
+    > IdentityFile ~/.vagrant.d/insecure_private_key
+    > EOF
+    $ cat hosts <<EOF
+    > vagrant
+    > EOF
+    $ ansible vagrant -i hosts -m copy -a "src=~/pantu dest=~/"
 
 #### 他にも
 

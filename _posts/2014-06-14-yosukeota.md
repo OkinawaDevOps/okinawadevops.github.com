@@ -10,32 +10,6 @@ tags : [Ansible]
 
 #### VagrantなvmをAnsibleでいじいじしたい！
 
-Mac => vm なのか、vm_1 => vm_2なのかで迷う。
-
-vm_1 => vm_2でやってみよう！
-
-#### vagrant ssh
-
-```
-$ cd ~/vms/ubuntu14_1
-$ vagrant up
-$ cd ~/vms/ubuntu14_2
-$ vagrant up
-```
-
-vagrantはデフォルトでport 2222を22にforwardしている。
-
-ってことは、複数のvmを`vagrant up`するとportがかぶって大変？
-
-=> port変更してよろしくやってくれる
-==> でもipは一緒？？？
-===> ipについては設定しないといけなさそう
-====> MacからvmにAnsible実行をとりあえずやってみよう
-
-- 結果的に
-
-Mac => vmにAnsible投げることに
-
 #### Ansibleのインストール(Mavericks)
 
 ```
@@ -77,7 +51,3 @@ $ ansible vagrant -i hosts -m copy -a "src=~/pantu dest=~/"
 `Vagrantfile`にprovisionを指定する設定があるようで、そこでplaybookを指定すると実行してくれるらしい。
 
 これは後日...。
-
-#### 今後は
-
-とりあえずvagrantの複数台運用方法考える。

@@ -11,6 +11,7 @@ tags : [Docker, Ubuntu 14.04, ]
 #### Ubuntu 14.04な環境にDockerインストールまで
 
 勉強会用に Ubuntu Server 14.04 な Box をアップしてあったので、それを使用。
+Vagrant のバージョンは 1.6.3 以降のこと。
 
     mkdir try-docker-on-ubuntu-1404
     cd try-docker-on-ubuntu-1404

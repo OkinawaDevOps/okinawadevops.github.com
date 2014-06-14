@@ -5,6 +5,7 @@ tags : [Docker]
 {% include JB/setup %}
 
 ## [kinjo](https://github.com/kinjo)
+
 Dockerfile Reference を読む。
 
 [http://docs.docker.com/reference/builder/](http://docs.docker.com/reference/builder/)
@@ -43,6 +44,7 @@ Docker は docker build を大幅加速するために可能な限り中間の�
 ビルドが終わったら Pushing a repository to its registry も参照のこと。
 
 ### Format
+
 Dockerfile のフォーマットは以下、
 
     # Comment
@@ -57,6 +59,7 @@ Docker は Dockerfile の順番でインストラクションを実行する。
 どのベースイメージからビルドするのかを指定するため。
 
 ### FROM
+
     FROM <image>
 
 または
@@ -81,12 +84,11 @@ tag が与えられなかった場合 latest と想定される。 tag がなか
 イメージの作者を指定する。
 
 ### RUN
+
 ふたつの形式がある。
 
-- RUN \<command\>
-  （/bin/sh -c で実行されるコマンド）
-- RUN ["executable", "param1", "param2"]
-  （exec 形式）
+- `RUN <command>` （/bin/sh -c で実行されるコマンド）
+- `RUN ["executable", "param1", "param2"]` （exec 形式）
 
 RUN インストラクションは、カレントイメージの新しいレイヤで任意のコマンドを実行し、
 結果をコミットする。
@@ -114,14 +116,12 @@ Dockerfile から続く全てのインストラクションのキャッシュを
 また、 RUN インストラクションのキャッシュを無効化する。（？）
 
 ### CMD
+
 ３つの形式がある。
 
-- CMD ["executable", "param1", "param2"]
-  （exec 形式。これが好ましい形式。）
-- CMD ["param1", "param2"]
-  （ENTRYPOINT のデフォルトパラメータとして）
-- CMD command param1 param2
-  （shell として）
+- `CMD ["executable", "param1", "param2"]` （exec 形式。これが好ましい形式。）
+- `CMD ["param1", "param2"]` （ENTRYPOINT のデフォルトパラメータとして）
+- `CMD command param1 param2` （shell として）
 
 Dockerfile においてただひとつの CMD がありうる。
 
@@ -133,9 +133,9 @@ executable は含めることも、 ENTRYPOINT を指定する場合は省くこ
 shell または exec 形式を使うとき、 CMD インストラクションは
 イメージを実行時に実行されるコマンドを設定する。
 
-shell 形式の CMD を使うと \<command\> は /bin/sh -c で実行する。
+shell 形式の CMD を使うと `<command>` は /bin/sh -c で実行する。
 
-\<command\> を shell なしで実行するなら、
+`<command>` を shell なしで実行するなら、
 コマンドを JSON 配列のように表現し executable にはフルパスを与えること。
 
     FROM ubuntu
@@ -172,8 +172,8 @@ ENV インストラクションは環境変数を指定する。
 ENV で設定された環境変数は、
 結果のイメージからコンテナが実行されるときも持続する。
 
-値は docker inspect で参照できる。
-また docker run --env \<key\>=\<value\> で変更できる。
+値は `docker inspect` で参照できる。
+また `docker run --env <key>=<value>` で変更できる。
 
 注意：
 予期しない結果を引き起こすひとつの例が ENV DEBIGN_FRONTEND noninteractive の設定。
@@ -184,21 +184,21 @@ ENV で設定された環境変数は、
 
     ADD <src> <dest>
 
-\<src\> から新しいファイルをコピーし、
-コンテナファイルシステム上の \<dest\> のパスに追加する。
+`<src>` から新しいファイルをコピーし、
+コンテナファイルシステム上の `<dest>` のパスに追加する。
 
-\<src\> は、ビルド中のソースディレクトリ（ビルドのコンテキストとも呼ばれる）と
+`<src>` は、ビルド中のソースディレクトリ（ビルドのコンテキストとも呼ばれる）と
 相対的なファイル、またはディレクトリのパス、またはリモートファイルの URL であること。
 
-\<dest\> は絶対パス。ソースは対象のコンテナ内のその位置にコピーされる
+`<dest>` は絶対パス。ソースは対象のコンテナ内のその位置にコピーされる
 
 新しいファイルは uid と gid が 0 で作成される。
 
-\<src\> がリモートファイルの URL だった場合、
+`<src>` がリモートファイルの URL だった場合、
 デスティネーションはパーミッション 600 になる。
 
 注意：
-docker build - \< somefile のように、標準入力からビルドすると、
+docker build - < somefile のように、標準入力からビルドすると、
 ビルドコンテキストがないため、
 Dockerfile は URL ベースの ADD ステートメントのみを含む。
 
@@ -209,25 +209,25 @@ RUN wget, RUN curl, またはコンテナ内の他のツールを使う必要が
 
 コピーは以下のルールに従う。
 
-- \<src\> に ../something のような指定はできない。
+- `<src>` に ../something のような指定はできない。
   docker build のとき、コンテキストディレクトリとそのサブディレクトリを
   docker デーモンに送信するため。
 
-- \<src\> が URL かつ \<dest\> の最後がスラッシュで終わらないとき、
-  ファイルは URL からダウンロードされ \<dest\> にコピーされる。
+- `<src>` が URL かつ `<dest>` の最後がスラッシュで終わらないとき、
+  ファイルは URL からダウンロードされ `<dest>` にコピーされる。
 
-- \<src\> が URL かつ \<dest\> の最後がスラッシュで終わらないとき、
-  filename が URL から推測され、ファイルは \<dest\>/\<filename\> に
+- `<src>` が URL かつ `<dest>` の最後がスラッシュで終わらないとき、
+  filename が URL から推測され、ファイルは `<dest>/<filename>` に
   ダウンロードされる。
   例えば ADD http://example.com/foobar / はファイル /foobar を作成する。
   この場合、 適切なファイル名が発見できるよう
   URL は nontrivial path でなければならない。
   （http://example.com では動かない）
 
-- \<src\> がディレクトリの場合、
+- `<src>` がディレクトリの場合、
   ファイルシステムメタデータを含むディレクトリ全体がコピーされる
 
-- \<src\> が認識可能な圧縮フォーマットでのローカル tar アーカイブのとき、
+- `<src>` が認識可能な圧縮フォーマットでのローカル tar アーカイブのとき、
   ディレクトリとして展開される。
   リモート URL のリソースは展開されない。
   ディレクトリがコピー、または展開されたとき、
@@ -237,31 +237,30 @@ RUN wget, RUN curl, またはコンテナ内の他のツールを使う必要が
   2. the contents of the source tree, with conflicts resolved in
      favor of "2." on a file-by-file basis.
 
-- \<src\> が任意の他の種類のファイルのときメタデータと一緒に個別にコピーされる。
-  この場合、もし \<dest\> の最後がスラッシュで終わるならディレクトリとしてみなされ
-  \<src\> のコンテンツは \<dest\>/base(\<src\>) に書き込まれる。
+- `<src>` が任意の他の種類のファイルのときメタデータと一緒に個別にコピーされる。
+  この場合、もし `<dest>` の最後がスラッシュで終わるならディレクトリとしてみなされ
+  `<src>` のコンテンツは `<dest>/base(<src>)` に書き込まれる。
 
-- \<dest\> の末尾がスラッシュで終わらないとき通常ファイルとしてみなされ
-  \<src\> のコンテンツは \<dest\> に書き込まれる。
+- `<dest>` の末尾がスラッシュで終わらないとき通常ファイルとしてみなされ
+  `<src>` のコンテンツは `<dest>` に書き込まれる。
 
-- \<dest\> がないとき、自身のパスで存在していない全てのディレクトリとともに作成される。
+- `<dest>` がないとき、自身のパスで存在していない全てのディレクトリとともに作成される。
 
 ### COPY
 
-    COPY <src> <dest>
+    COPY `<src>` `<dest>`
 
-\<src\> からファイルをコピーし、それらをコンテナのファイルシステム上のパス \<dest\> に
+`<src>` からファイルをコピーし、それらをコンテナのファイルシステム上のパス `<dest>` に
 追加する。
 
-\<src\> にリモートファイルを指定できないだけで、あとは ADD と同じものだろうか・・（？）
+`<src>` にリモートファイルを指定できないだけで、あとは ADD と同じものだろうか・・（？）
 
 ### ENTRYPOINT
+
 ふたつの形式がある。
 
-- ENTRYPOINT ["executable", "param1", "param2"]
-  （exec のように好ましい形式）
-- ENTRYPOINT command param1 param2
-  （shell として）
+- `ENTRYPOINT ["executable", "param1", "param2"]` （exec のように好ましい形式）
+- `ENTRYPOINT command param1 param2` （shell として）
 
 Dockerfile にただひとつの ENTRYPOINT がありうる。
 ひとつより多く ENTRYPOINT があれば、最後のひとつだけが効果を得る。
@@ -275,7 +274,7 @@ ENTRYPOINT インストラクションは、 CMD の振る舞いとは異なり
 docker run の引数で上書きされないエントリコマンドを追加する。
 
 引数をエントリポイントに渡すこともできる。
-例えば docker run \<image\> -d の -d は ENTRYPOINT に渡される。
+例えば `docker run <image> -d` の `-d` は ENTRYPOINT に渡される。
 
 ENTRYPOINT の JSON 配列により、
 もしくは CMD ステートメントの使用によりパラメータを指定することもできる。
@@ -308,10 +307,12 @@ VOLUME インストラクションは、指定された名前でマウントポ�
 マウントの手法は Share Directories via Volumes を参照のこと。
 
 ### USER
+
 イメージおよび任意の RUN 命令が起動しているとき使用するユーザ名、
 または UID を設定する。
 
 ### WORKDIR
+
 RUN の作業ディレクトリを設定する。
 Dockerfile のコマンド CMD や ENTRYPOINT にも適用される。
 

@@ -9,6 +9,7 @@ tags : [Ansible, Vagrant]
 * [やること](https://github.com/OkinawaDevOps/okinawadevops.github.com/issues/48)
 
 ### Vagrantの運用方法考えてみた
+
 ### Why?
 Vagrantは初期状態ではセキュリティ的によろしくない
 

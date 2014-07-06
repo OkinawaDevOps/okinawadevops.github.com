@@ -6,6 +6,8 @@ tags : [Docker, Chef]
 
 # [mura-](https://github.com/mura-)
 
+* [やること宣言](https://github.com/OkinawaDevOps/okinawadevops.github.com/issues/49)
+
 Docker環境でもChef(chef-solo)の資産を使うべく、DockerとChefの連携を考える。
 
 ## why?
@@ -16,49 +18,43 @@ Docker環境でもChef(chef-solo)の資産を使うべく、DockerとChefの連�
 Chefとの連携自体やったことがないので...
 
 1. Using Chef (Docker Official)  ChefでDockerをいれる
-    http://docs.docker.com/articles/chef/
-    * dockerをinstallしたあとcookbookをどうするかは書かれてないのでここでは割愛。
-    * OPSCODEにdockerでchefが動くchef-dockerというものがある
-        http://community.opscode.com/cookbooks/docker
-        (source: http://community.opscode.com/cookbooks/docker )
-
+* [docker document using chef](http://docs.docker.com/articles/chef/)
+* dockerをinstallしたあとcookbookをどうするかは書かれてないのでここでは割愛。
+* OPSCODEにdockerでchefが動くchef-dockerというものがある→[chef-docker](http://community.opscode.com/cookbooks/docker)
 2. Packerを使う
-   参考: http://deeeet.com/writing/2014/03/02/build-docker-image-by-packer/
-
+* 参考: [Packerを使ってChef/Puppet/AnsibleでDockerのイメージをつくる](http://deeeet.com/writing/2014/03/02/build-docker-image-by-packer/)
 3. Dockerfileにchef実行コマンドを書き、docker build時に実行する
-   参考: http://dev.classmethod.jp/server-side/docker-provisioning-use-chef/
-
-### Using Chef
-1. 環境設定
-    * Chefをinstall
-      オムニバスインストーラーを使う
-    * knife-soloをinstall
-    * berkshelfをinstall
-    * Chefリポジトリを作成
+* 参考: [Dockerイメージをchef-soloでプロビジョニングする](http://dev.classmethod.jp/server-side/docker-provisioning-use-chef/)
 
 ### Packerを使う
 
-当初boot2dockerで検証を試みるも、なぜかprovisioningが終わらなかったので、
-一旦ubuntu上で検証。
+当初boot2dockerで検証を試みるも、なぜかprovisioningが終わらなかったので、一旦ubuntu上で検証。
+(もくもく会当日は、socketがどうたらでエラーになったが、僕が環境変数をうまく指定できてなかった)
 
-1. vagrantにubuntuイメージを用意し、起動
-2. ubuntu上にchefとpackerとdockerをinstallする
-* chefのinstall
+#### 1. vagrantにubuntuイメージを用意し、起動
+
+#### 2. ubuntu上にchefとpackerとdockerをinstallする
+
+##### chefのinstall
+
 オムニバスインストーラーを使う。楽ちん
 
     curl -L http://www.opscode.com/chef/install.sh | bash
 
-* packerのinstall
-    ここからhttp://www.packer.io/downloads.html　ダウンロードしてきて、
-    適当なところへ展開。PATHを通す。
+##### packerのinstall
 
-* dockerのinstall
-    パッケージ管理で。
+[ここから](http://www.packer.io/downloads.html)ダウンロードしてきて、適当なところへ展開。PATHを通す。
+
+##### dockerのinstall
+
+パッケージ管理で。
+
     sudo apt-get update
     sudo apt-get install docker.io
     sudo ln -sf /usr/bin/docker.io /usr/local/bin/docker
 
 下記の用にVagrantfileに記述してしまってもよい。
+その場合はvagrant upだけで済む。
 
     Vagrant.configure("2") do |config|
         config.vm.box = "precise64"
@@ -80,12 +76,15 @@ Chefとの連携自体やったことがないので...
     
     end
 
-3. cookbook用意
+#### 3. cookbook用意
+
 Recipeの中身は省略します。
 
     knife cookbook create hogehoge -o site-cookbooks
 
-4. Packerの設定ファイル用意
+#### 4. Packerの設定ファイル用意
+
+docker_chef.json
 
     {
         "builders":[{
@@ -116,21 +115,24 @@ Recipeの中身は省略します。
         }]
     }
 
-5. packerでdockerイメージbuild
+#### 5. packerでdockerイメージbuild
 
-    packer build machine_chef.json
+    packer build docker_chef.json
 
-6. docker imageを見るとイメージが作成されている
+#### 6. docker imageを見るとイメージが作成されている
+
     vagrant@vagrant-ubuntu-trusty-64:~$ sudo docker images
     REPOSITORY           TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
     name/hogehoge   latest                 83e7a18fd734        18 minutes ago      380 MB
 
 ### Dockerfileにchef実行コマンドを書き、docker build時に実行する
+
 Packerをいれると確かにDockerfileはノータッチでイメージの作成ができたが、
 逆にPackerいれたりめんどくさい、という場合は下記のように最低限をDockerfileに記述するのはありかもしれない。
 
 (Dockerがinstallされている前提、recipeが用意されている前提で)
-1. Dockerfile用意
+
+#### 1. Dockerfile用意
 
     FROM centos
      
@@ -142,11 +144,12 @@ Packerをいれると確かにDockerfileはノータッチでイメージの作�
     RUN curl -L http://www.opscode.com/chef/install.sh | bash
     RUN cd ${CHEFHOME} && chef-solo -c ${CHEFHOME}/solo.rb -j ${CHEFHOME}/nodes/docker.json
 
-2. DockerイメージBuild
+#### 2. DockerイメージBuild
 
     docker build -t name/hogehoge
 
-3. docker imageを見るとイメージが作成されている
+#### 3. docker imageを見るとイメージが作成されている
+
     vagrant@vagrant-ubuntu-trusty-64:~$ sudo docker images
     REPOSITORY           TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
     name/hogehoge            latest              8f2151ea5244        59 seconds ago      420.2 MB

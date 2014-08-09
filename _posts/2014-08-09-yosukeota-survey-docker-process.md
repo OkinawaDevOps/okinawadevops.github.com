@@ -1,6 +1,6 @@
 ---
 layout: post
-tags : [Ansible]
+tags : [Docker]
 ---
 {% include JB/setup %}
 

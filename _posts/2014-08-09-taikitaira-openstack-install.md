@@ -9,29 +9,23 @@
 
 ### mariadb 自動起動
 データベースを自動起動するように。Fedora の MySQL は Mariadb になっているので、コマンドもこんな感じ。
-```
-# systemctl enable mariadb.service
-```
+    # systemctl enable mariadb.service
 
 
 ### mariadb password
-```
-# mysqladmin -u root password
-New password:
-Confirm new password:
-```
+    # mysqladmin -u root password
+    New password:
+    Confirm new password:
 
 
 ### mariadb の設定
-```
-vim /etc/my.cnf.d/server.cnf
-
-bind-address = 127.0.0.1
-# default-strage-engine = innodb
-collation-server = utf8_general_ci
-init-connect = 'SET NAMES utf8'
-character-set-server = utf8
-```
+    vim /etc/my.cnf.d/server.cnf
+    
+    bind-address = 127.0.0.1
+    # default-strage-engine = innodb
+    collation-server = utf8_general_ci
+    init-connect = 'SET NAMES utf8'
+    character-set-server = utf8
 
 ### MariaDB ってなに？
 https://mariadb.com/about
@@ -42,33 +36,25 @@ https://mariadb.com/about
 
 ### keystone 再起動
 fedora では service の名前が openstack-keystone になっているので service 起動時は下記のように。fedora は「openstack-」がついてる。
-```
-# service openstack-keystone start
-# systemctl enable openstack-keystone.service
-```
+    # service openstack-keystone start
+    # systemctl enable openstack-keystone.service
 
-```
-# export OS_SERVICE_TOKEN=password
-[root@localhost]/home/shien/openstack# export OS_SERVICE_ENDPOINT=http://localhost:35357/v2.0
-```
+    # export OS_SERVICE_TOKEN=password
+    [root@localhost]/home/shien/openstack# export OS_SERVICE_ENDPOINT=http://localhost:35357/v2.0
 
 keystone の endpoint を、localhost 上なら下記のように設定すれば、
-```
-# export OS\_SERVICE\_ENDPOINT=http://localhost:35357/v2.0
-```
+    # export OS\_SERVICE\_ENDPOINT=http://localhost:35357/v2.0
 
 こんな感じで表示できる。
-```
-# keystone user-list
-WARNING: Bypassing authentication using a token & endpoint (authentication credentials are being ignored).
-+----------------------------------+--------+---------+-------------------------------+
-|                id                |  name  | enabled |             email             |
-+----------------------------------+--------+---------+-------------------------------+
-| b4dc3ab16d7f47db819b860ce283564e | admin  |   True  |      sienrizumu@gmail.com     |
-| 4f4824c0e19444eb8cc1cdd22f876d3b |  demo  |   True  | earthquake-moon@hotmail.co.jp |
-| a66db22a936d43129483f245ae659f5d | glance |   True  |      sienrizumu@gmail.com     |
-+----------------------------------+--------+---------+-------------------------------+
-```
+    # keystone user-list
+    WARNING: Bypassing authentication using a token & endpoint (authentication credentials are being ignored).
+    +----------------------------------+--------+---------+-------------------------------+
+    |                id                |  name  | enabled |             email             |
+    +----------------------------------+--------+---------+-------------------------------+
+    | b4dc3ab16d7f47db819b860ce283564e | admin  |   True  |      sienrizumu@gmail.com     |
+    | 4f4824c0e19444eb8cc1cdd22f876d3b |  demo  |   True  | earthquake-moon@hotmail.co.jp |
+    | a66db22a936d43129483f245ae659f5d | glance |   True  |      sienrizumu@gmail.com     |
+    +----------------------------------+--------+---------+-------------------------------+
 
 
 /etc/glance/grance-api.conf に設定記述
@@ -77,23 +63,17 @@ WARNING: Bypassing authentication using a token & endpoint (authentication crede
 
 ### サービスを再起動する。
 ついでに自動起動するようにも設定
-```
-# service openstack-glance-registry restart
-Redirecting to /bin/systemctl restart  openstack-glance-registry.service
-# service openstack-glance-api restart
-Redirecting to /bin/systemctl restart  openstack-glance-api.service
-# systemctl enable openstack-glance-api.service && systemctl enable openstack-glance-registry.service
-```
+    # service openstack-glance-registry restart
+    Redirecting to /bin/systemctl restart  openstack-glance-registry.service
+    # service openstack-glance-api restart
+    Redirecting to /bin/systemctl restart  openstack-glance-api.service
+    # systemctl enable openstack-glance-api.service && systemctl enable openstack-glance-registry.service
 
 ### fedora 本家から cloud image を download
-```
-wget http://download.fedoraproject.org/pub/fedora/linux/updates/20/Images/x86_64/Fedora-x86_64-20-20140407-sda.qcow2
-```
+    wget http://download.fedoraproject.org/pub/fedora/linux/updates/20/Images/x86_64/Fedora-x86_64-20-20140407-sda.qcow2
 
 ### nova の /etc/nova/nova.conf
-```
-rpc_backend=nova.openstack.common.rpc.impl_kombu
-```
+    rpc_backend=nova.openstack.common.rpc.impl_kombu
 rpc_backend=rabbitmq だけじゃだめみたい
 
 

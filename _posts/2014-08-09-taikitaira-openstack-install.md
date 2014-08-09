@@ -4,6 +4,8 @@ layout : post
 tags : [OpenStack, ]
 ---
 
+{% include JB/setup %}
+
 ## OpenStack 続き
 
 途中からの上に、終われてないので参考にならない説があります。ご注意。日本仮想化技術様から pdf をインストールして、作成しています。

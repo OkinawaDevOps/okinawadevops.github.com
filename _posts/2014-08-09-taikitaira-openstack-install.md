@@ -1,3 +1,9 @@
+
+---
+layout : post
+tags : [OpenStack, ]
+---
+
 ## OpenStack 続き
 
 途中からの上に、終われてないので参考にならない説があります。ご注意。日本仮想化技術様から pdf をインストールして、作成しています。
@@ -53,6 +59,7 @@ keystone の endpoint を、localhost 上なら下記のように設定すれば
     # export OS\_SERVICE\_ENDPOINT=http://localhost:35357/v2.0
 
 こんな感じで表示できる。
+
     # keystone user-list
     WARNING: Bypassing authentication using a token & endpoint (authentication credentials are being ignored).
     +----------------------------------+--------+---------+-------------------------------+

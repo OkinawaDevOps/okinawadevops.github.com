@@ -3,22 +3,26 @@
 途中からの上に、終われてないので参考にならない説があります。ご注意。日本仮想化技術様から pdf をインストールして、作成しています。
 
 ### 環境
+
 * VMWare 上の Fedora 20
 * OpenStack havana
 * keystone までは終わっている
 
 ### mariadb 自動起動
+
 データベースを自動起動するように。Fedora の MySQL は Mariadb になっているので、コマンドもこんな感じ。
     # systemctl enable mariadb.service
 
 
 ### mariadb password
+
     # mysqladmin -u root password
     New password:
     Confirm new password:
 
 
 ### mariadb の設定
+
     vim /etc/my.cnf.d/server.cnf
     
     bind-address = 127.0.0.1
@@ -28,13 +32,16 @@
     character-set-server = utf8
 
 ### MariaDB ってなに？
-https://mariadb.com/about
+
+[MariaDB](https://mariadb.com/about)
+
 * MySQL を fork して立ち上げられたプロジェクト。
 * google が MySQL を捨てて MariaDB に移行している。
 * MySQL と SQL 部分はさほど変わらない？
 * 時間があったらもっと調べてみたい。
 
 ### keystone 再起動
+
 fedora では service の名前が openstack-keystone になっているので service 起動時は下記のように。fedora は「openstack-」がついてる。
     # service openstack-keystone start
     # systemctl enable openstack-keystone.service
@@ -62,6 +69,7 @@ keystone の endpoint を、localhost 上なら下記のように設定すれば
 
 
 ### サービスを再起動する。
+
 ついでに自動起動するようにも設定
     # service openstack-glance-registry restart
     Redirecting to /bin/systemctl restart  openstack-glance-registry.service
@@ -70,18 +78,21 @@ keystone の endpoint を、localhost 上なら下記のように設定すれば
     # systemctl enable openstack-glance-api.service && systemctl enable openstack-glance-registry.service
 
 ### fedora 本家から cloud image を download
+
     wget http://download.fedoraproject.org/pub/fedora/linux/updates/20/Images/x86_64/Fedora-x86_64-20-20140407-sda.qcow2
 
 ### nova の /etc/nova/nova.conf
+
     rpc_backend=nova.openstack.common.rpc.impl_kombu
 rpc_backend=rabbitmq だけじゃだめみたい
 
 
 ## まとめ
+
 * nova / glance / keystone のインストールとか環境設定してました
 * nova と glance の ERROR: Unable to sign token. (HTTP 500) に悩まされている最中。早く何とかしないと。
 * しかも docker まで行けませんでした
 * いっそスクリプトや puppet でインストールしたほうが……って感じに心折れかけてます
 * docker 使うには driver いれて nova と glance の設定すれば……のようです。
-* 参考:https://wiki.openstack.org/wiki/Docker#Installing_Docker_for_OpenStack
+* [参考](https://wiki.openstack.org/wiki/Docker#Installing_Docker_for_OpenStack)
 * 将来的には OpenStack で、ansible との連携しつつ bare machine / container / VM を操作できるようにしたい

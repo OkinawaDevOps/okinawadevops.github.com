@@ -1,9 +1,7 @@
-
 ---
 layout : post
 tags : [OpenStack, ]
 ---
-
 {% include JB/setup %}
 
 ## OpenStack 続き

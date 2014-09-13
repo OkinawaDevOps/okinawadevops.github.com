@@ -80,13 +80,3 @@ OpenStack Object Storage サービスの構築手順は割愛し、
     ちなみに、あとは pdb を使用しデバッグできる。
 
         /bin/sh -c 'LANG=en_US.UTF-8 LC_CTYPE=en_US.UTF-8 /usr/bin/python /usr/lib/python2.7/pdb.py /home/vagrant/.ansible/tmp/ansible-tmp-1410398291.15-256266684151156/keystone_user'
-
-<div id="footnotes">
-<h2 class="footnotes">Footnotes: </h2>
-<div id="text-footnotes">
-
-<div class="footdef"><sup><a id="fn.1" name="fn.1" class="footnum" href="#fnr.1">1</a></sup> <p>DEFINITION NOT FOUND.</p></div>
-
-
-</div>
-</div>

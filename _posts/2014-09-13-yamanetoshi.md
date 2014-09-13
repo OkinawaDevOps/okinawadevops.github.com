@@ -1,6 +1,6 @@
 ---
 layout: post
-tags : [Docker, ]
+tags : [misc, ]
 ---
 {% include JB/setup %}
 

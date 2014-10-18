@@ -4,9 +4,9 @@ tags : [Linux,PHP,Apache,worker MPM,mod_fcgid]
 ---
 {% include JB/setup %}
 
-### [Matayoshi][https://twitter.com/nmatayoshi]
+### [Matayoshi](https://twitter.com/nmatayoshi)
 
-* [Apache worker mpm + PHP な環境構築][https://github.com/OkinawaDevOps/okinawadevops.github.com/issues/87]
+* [Apache worker mpm + PHP な環境構築](https://github.com/OkinawaDevOps/okinawadevops.github.com/issues/87])
 
 
 ## CentOS 6.5 x64 な vagrant を起動
@@ -182,6 +182,6 @@ http://localhost/ にアクセスすると"It works"がでた
 
 ## 参考
 
-* [PHP: Apache 2.x (Unixシステム用) - Manual][http://php.net/manual/ja/install.unix.apache2.php]
-* [Apache ウェブサーバーで FastCGI を利用する : Movable Type 6 ドキュメント][http://www.movabletype.jp/documentation/mt6/reference/apache-fastcgi.html]
-* [PHP: FastCGI Process Manager (FPM) - Manual][http://php.net/manual/ja/install.fpm.php]
+* [PHP: Apache 2.x (Unixシステム用) - Manual](http://php.net/manual/ja/install.unix.apache2.php)
+* [Apache ウェブサーバーで FastCGI を利用する : Movable Type 6 ドキュメント](http://www.movabletype.jp/documentation/mt6/reference/apache-fastcgi.html)
+* [PHP: FastCGI Process Manager (FPM) - Manual](http://php.net/manual/ja/install.fpm.php)

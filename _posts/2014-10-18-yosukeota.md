@@ -18,7 +18,7 @@ KVMを利用してkernelをgdbで追いかけてみよう
 
 * linux-3.9.2
 
-```
+~~~
 sudo yum install ncurses-devel
 make menuconfig
     (debug option, KGDBをつける)
@@ -44,18 +44,18 @@ qemu-kvm は /usr/libexec/ にあるので、PATHを-devel
 sudo yum install glib2-devel
 sudo yum groupinstall "Development Tools"
 sudo ./configure <- sudoつけると通る
-```
+~~~
 
 ## VM設定なxml編集
 
 * `<DOMAIN>`エレメント内に記述を追加
 
-  ```
+  ~~~
   $ virsh edit softsystem_2nd
   <qemu:commandline>
     <qemu:arg value='-s'/>
   </qemu:commandline>
-  ```
+  ~~~
 
 これを記述することで今後は
 `/usr/libexec/qemu-kvm -s /tmp/Centos_2nd.img`
@@ -68,21 +68,21 @@ sudo ./configure <- sudoつけると通る
 
 ### KVM のインストール
 
-```
+~~~
 sudo yum groupinstall Virtualization "Virtualization Client" "Virtualization Platform" "Virtualization Tools"
 chkconfig libvirtd on
 reboot
-```
+~~~
 
 * ファイルの編集
   * /etc/sysconfig/network-scripts/ifcfg-br0
   * /etc/sysconfig/network-scripts/ifcfg-eth0
 
-```
+~~~
 modprobe kvm_intel
 qemu-img create -f qcow2 [img名] 10G
 virt-install --connect qemu:///system --name [VM名] --vcpus [cpuコア数] --ram=[メモリ(MB)] --hvm --location [DVDのイメージ]  --os-type=Linux --os-variant=virtio26 --disk path=[qemu-imgで作ったimg],size=[diskのサイズ(GB)],format=qcow2  --network bridge=br0 --accelerate --extra-args='console=tty0 console=ttyS0,115200n8'
-```
+~~~
 
 
 ## VM側準備
@@ -98,7 +98,7 @@ virt-install --connect qemu:///system --name [VM名] --vcpus [cpuコア数] --ra
 
 ### VM内kernel build
 
-```
+~~~
 /usr/local/src/linux-3.9.2.tar.xz
 yum install ncurses-devel
 yum install xz
@@ -113,7 +113,7 @@ yum install bc
 
 yum install perl
 time make modules_install
-```
+~~~
 
 #### ハマったところ
 
@@ -121,40 +121,40 @@ time make modules_install
 
   * イメージの容量を増やす
 
-    ```
+    ~~~
     qemu-img resize Centos_2nd.img +4G
     qemu-img info Centos_2nd.img
-    ```
+    ~~~
 
   * swap容量が大きかったので減らして、root領域に割り当てる
 
-    ```
+    ~~~
     lvresize -L -7G /dev/mapper/VolGroup-lv_swap
     lvextend -L +7G /dev/mapper/VolGroup-lv_root
     resize2fs /dev/mapper/VolGroup-lv_root
-    ```
+    ~~~
 
 * kernel buildに戻る。
 
   error出て止まる
 
-  ```
+  ~~~
   real     1m19.214s
   user     8m37.024s
   sys     1m4.322s
-  ```
+  ~~~
 
   `yum install perl`して
   もっかい make
 
-  ```
+  ~~~
   real     5m48.625s
   user     37m21.291s
   sys     4m59.829s
-  ```
+  ~~~
 
 * やっとmakeが通る
-  ```
+  ~~~
   time make modules_install -j 8
 
   real     0m21.190s
@@ -165,7 +165,7 @@ time make modules_install
   real     0m11.456s
   user     0m6.187s
   sys     0m3.844s
-  ```
+  ~~~
 
 ### VM内boot関係設定
 
@@ -174,7 +174,7 @@ time make modules_install
     * ttyS
     * default
 
-  ```
+  ~~~
   default=0
   timeout=5
   serial --unit=0 --speed=115200
@@ -186,20 +186,20 @@ time make modules_install
   shkernel=auto console=ttyS0,115200 kgdboc=ttyS0,115200 rd_LVM_LV=VolGroup/lv_rooo
   t  KEYBOARDTYPE=pc KEYTABLE=us rd_NO_DM
           initrd /initramfs-3.9.2.img
-  ```
+  ~~~
 
 ### 起動後にkernel version確認
 
-```
+~~~
 [root@localhost ~]# uname -r
 3.9.2
-```
+~~~
 
 # HOST側
 
 ## gdb を使ってみる
 
-```
+~~~
 /usr/libexec/qemu-kvm -s -S /tmp/Centos_2nd.img
 gdb vmlinux
 (gdb) set arch i386 <- これやると微妙に見える
@@ -208,7 +208,7 @@ gdb vmlinux
 /usr/libexec/qemu-kvm -s /tmp/Centos_2nd.img <- -Sはつけない
 gdb vmlinux
 (gdb) target remote :1234
-```
+~~~
 
 `nm vmlinux`くらいでbreakpointを探す。
 do_forkとか。
@@ -219,7 +219,7 @@ do_forkとか。
 
 ## breakpointsなログ
 
-```
+~~~
 (gdb) i b
 Num     Type           Disp Enb Address            What
 1       breakpoint     keep y   0xffffffff814e42a0 in tcp_init_sock at net/ipv4/tcp.c:373
@@ -229,7 +229,7 @@ Num     Type           Disp Enb Address            What
 4       breakpoint     keep y   0xffffffff81552cb0 in sysctl_net_init at net/sysctl_net.c:68
 5       breakpoint     keep y   0xffffffff811f02c0 in setup_sysctl_set
                                                at fs/proc/proc_sysctl.c:1577
-```
+~~~
 
 
 ## breakpoints
@@ -253,7 +253,7 @@ https://lists.gnu.org/archive/html/qemu-devel/2012-08/msg03921.html
 
 ## backtraceなログ
 
-```
+~~~
 (gdb) bt
 #0  0xffffffff8135d345 in inb (p=0xffffffff81ebe060, offset=<value optimized out>)
     at /usr/local/src/linux-3.9.2/arch/x86/include/asm/io.h:308
@@ -297,7 +297,7 @@ https://lists.gnu.org/archive/html/qemu-devel/2012-08/msg03921.html
 #22 0xffffffff815655be in start_secondary (unused=<value optimized out>)
     at arch/x86/kernel/smpboot.c:287
 #23 0x0000000000000000 in ?? ()
-```
+~~~
 
 
 * net/socket.c
@@ -305,7 +305,7 @@ SYSCALL_DEFINE2
 
 
 ## kernel REmake
-```
+~~~
 (gdb) info b
 Num     Type           Disp Enb Address            What
 1       breakpoint     keep y   0xffffffff811f02c9 in setup_sysctl_set
@@ -324,10 +324,10 @@ Num     Type           Disp Enb Address            What
 5       breakpoint     keep y   0xffffffff81485229 in sys_socketcall at net/socket.c:2436
 6       breakpoint     keep y   0xffffffff81482a39 in sys_socket at net/socket.c:1395
      breakpoint already hit 1 time
-```
+~~~
 
 
-```
+~~~
 (gdb) bt
 #0  sys_socket (family=16, type=3, protocol=9) at net/socket.c:1395
 #1  0xffffffff81579999 in ?? () at arch/x86/kernel/entry_64.S:644
@@ -335,7 +335,7 @@ Num     Type           Disp Enb Address            What
 #3  0xffff880215364000 in __brk_reservation_fn_early_pgt_alloc__ ()
 #4  0xffff880216738800 in __brk_reservation_fn_early_pgt_alloc__ ()
 #5  0x0000000000000000 in ?? ()
-```
+~~~
 
 http://www.slideshare.net/libfetion/linux-kernel-debugging
 
@@ -343,7 +343,7 @@ http://www.slideshare.net/libfetion/linux-kernel-debugging
 
 EXTRA_CFLAGS += -O0
 
-```
+~~~
 (gdb) bt
 #0  sock_alloc () at net/socket.c:535
 #1  0xffffffff814834d0 in __sock_create (net=0xffffffff81ac4140, family=16, type=3, protocol=9,
@@ -351,21 +351,21 @@ EXTRA_CFLAGS += -O0
 #2  0xffffffff814836d4 in sock_create (family=16, type=3, protocol=9, res=0xffff8802152bff58)
     at net/socket.c:1372
 #3  0xffffffff81483771 in sys_socket (family=16, type=3, protocol=9) at net/socket.c:1402
-```
+~~~
 
 # エラー
 
 * Remote 'g' packet reply is too long
 
-  ```
+  ~~~
   Remote 'g' packet reply is too long: 00000000000000001000a081ffffffff0000000000004001000000000000000000000000000040018200000000000000c81ea081ffffffffc81ea081ffffffff00000000000000000100000000000000000000000000000000000000000000000000000000000000e042ba81ffffffff0000000000000000c03d09000000000016570481ffffffff4602000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007f0300000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffff0001010101010101010100015445524d0053494753544b464c5400530000000000000000000000000000000000000000000000003100000000000000404040404040404040404040404040405b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b202020202020202020202020202020200000000000000000000000000000000000000000000000ff0000000000ffffff20202020202000202020202020202000ffffffffffffffffffffffffffffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000801f0000
-  ```
+  ~~~
 
   * 対処法
 
-    ```
+    ~~~
     (gdb) set architecture i386:x86-64:intel
-    ```
+    ~~~
 
 # aiueo
 

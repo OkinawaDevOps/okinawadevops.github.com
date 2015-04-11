@@ -351,11 +351,11 @@ logger コマンド側のサンプルとして `emit_log.py` を作成する。
 
     `Binding` の状況がわかるとキューまわりの状況を以下のように図示できる。
 
-        Exchanges     Bindings                     Queues                          Consumers
-        +-----------+                              +--------------------+          +---------------+
-        |logs       | key=amq.gen-jX-1mx2UbP..     |amq.gen-jX-1mx2UbP..|          |receive_logs.py|
-        |type=fanout|------------------------------|                    |----------|               |
-        +-----------+                              +--------------------+          +---------------+
+        Exchanges     Bindings                 Queues                   Consumers
+        +-----------+                          +--------------------+   +---------------+
+        |logs       | key=amq.gen-jX-1mx2UbP.. |amq.gen-jX-1mx2UbP..|   |receive_logs.py|
+        |type=fanout|--------------------------|                    |---|               |
+        +-----------+                          +--------------------+   +---------------+
 
 ### [4 Routing](http://www.rabbitmq.com/tutorials/tutorial-four-python.html)
 

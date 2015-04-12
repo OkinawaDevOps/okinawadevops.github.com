@@ -22,7 +22,7 @@ tags : [Fab, ]
 
 とりあえず以下のリポジトリを作成して本読みおよび課題作成着手します。
 
-- [Machine Language](https://github.com:yamanetoshi/MachineLanguage.git)
+- [Machine Language](https://github.com/yamanetoshi/MachineLanguage)
 
 Mult.asm をサンプル見つつでっち上げたがとりあえず以下に目を通せとのことで確認。
 

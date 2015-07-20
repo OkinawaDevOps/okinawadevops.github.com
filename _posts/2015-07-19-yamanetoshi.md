@@ -135,3 +135,11 @@ testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 - getActivity メソドが null を戻す
 
 引き続き問題解決対応の方向。しかし困った。
+
+### その後
+
+以下な例外の問題解決ができぬまま。
+
+> java.lang.Exception: Custom runner class AndroidJUnit4 should have a public constuctor with signature AndroidJUnit4(Class testClass) <1 internal calls>
+
+[ここ](https://code.google.com/p/android-test-kit/wiki/AndroidJUnitRunnerUserGuide)のサンプルコピペでも同じ現象。
